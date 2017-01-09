@@ -27,7 +27,7 @@ function getMoviesFor (cinema) {
   cineco
     .getMoviesFor(cinema)
     .then(movies => {
-      this.emit(':ask', `There are these movies for today on ${cinema}: ${movies.map(m => m.titles).join(', ')}`)
+      this.emit(':ask', `There are these movies for today on ${cinema}: ${movies.map(m => m.title).join(', ')}`)
     }, err => {
       console.error(err)
       this.emit(':tell', 'Sorry, I couldn\'t contact to Cineco')
