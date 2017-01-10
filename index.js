@@ -53,8 +53,6 @@ function _unhandled () {
 const handlers = {
   LaunchRequest: function () {
     console.log('Welcome to Cineco')
-    this._getMoviesFor = _getMoviesFor.bind(this)
-    this._unhandled = _unhandled.bind(this)
     this.attributes['state'] = states.DEFAULT
     this.emit(':ask', 'Welcome to Cineco, do you want to see what\'s on Unicentro?')
   },
@@ -67,9 +65,9 @@ const handlers = {
         this.attributes['state'] = states.LISTED_CINEMAS
         return this.emit(':ask', `Which cinema do you want to see? ${cineco.CINEMAS.map(c => c.name).join(', ')}.`)
       case states.DEFAULT:
-        return this._getMoviesFor('unicentro')
+        return _getMoviesFor.call(this, 'unicentro')
       default:
-        this._unhandled()
+        _unhandled.call(this)
     }
   },
   NoIntent: function () {
@@ -82,7 +80,7 @@ const handlers = {
         this.emit(':ask', `Do you want to check another cinema?`)
         return this.attributes['state'] = states.PROMPTED_TO_LIST_CINEMAS
       default:
-        this._unhandled()
+        _unhandled.call(this)
     }
   },
   CancelIntent: function () {
@@ -99,15 +97,15 @@ const handlers = {
         return this.emit(':tell', `For ${movie.title} the functions are: ${movie.functions.join(', ')}`)
       case  states.LISTED_CINEMAS:
         const cinema = cineco.CINEMAS[number]
-        return this._getMoviesFor(cinema.name)
+        return _getMoviesFor.call(this, cinema.name)
       default:
-        this._unhandled()
+        _unhandled.call(this)
     }
   },
   SelectIntent: function () {
     const slots  = this.event.request.intent.slots
     const cinema = slots.cinema.value
-    this._getMoviesFor(cinema)
+    _getMoviesFor.call(this, cinema)
   },
   Unhandled: _unhandled
 };
