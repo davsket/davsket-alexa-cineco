@@ -89,7 +89,7 @@ const handlers = {
   },
   NumberIntent: function () {
     const slots  = this.event.request.intent.slots
-    const number = slots.number.value
+    const number = slots.number.value - 1
 
     switch (this.attributes['state']) {
       case states.LISTED_MOVIES:
