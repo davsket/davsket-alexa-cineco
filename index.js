@@ -52,7 +52,7 @@ const handlers = {
       })
   },
   YesIntent: function () {
-    swich (this.attributes['state']) {
+    switch (this.attributes['state']) {
       case state.LISTED_MOVIES:
         this.attributes['state'] = state.WHICH_CINEMA
         return this.emit(':ask', `Which one?`)
@@ -66,7 +66,7 @@ const handlers = {
     }
   },
   NoIntent: function () {
-    swich (this.attributes['state']) {
+    switch (this.attributes['state']) {
       case state.LISTED_MOVIES:
       case state.PROMPTED_TO_LIST_CINEMAS:
         this.attributes['state'] = 0
@@ -86,7 +86,7 @@ const handlers = {
     const slots  = this.event.request.intent.slots
     const number = slots.number.value
 
-    swich (this.attributes['state']) {
+    switch (this.attributes['state']) {
       case state.LISTED_MOVIES:
         const movie = this.attributes['movies'][number]
         return this.emit(':tell', `For ${movie.title} the functions are: ${movie.functions.join(', ')}`)
