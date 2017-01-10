@@ -28,7 +28,7 @@ module.exports.getMoviesFor = function getMoviesFor (cinema) {
                           .map(node => {
                             let $node = cheerio(node)
                             return {
-                              title: $node.find('.title').attr('title'),
+                              title: cleanName($node.find('.title').attr('title')),
                               functions: $node.find('.funciones a')
                                               .toArray()
                                               .map(h => cheerio(h).text())
@@ -41,4 +41,10 @@ module.exports.getMoviesFor = function getMoviesFor (cinema) {
       reject('No match for: ' + cinema)
     }
   })
+}
+
+function cleanName (name) {
+  return name
+          .replace('¡', '')
+          .replace('¿', '')
 }
