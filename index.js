@@ -34,7 +34,7 @@ app.post('/', function (req, res) {
 const handlers = {
   LaunchRequest: function () {
     console.log('Welcome to Cineco')
-    this.attributes['state'] = state.DEFAULT
+    this.attributes['state'] = states.DEFAULT
     this.emit(':ask', 'Welcome to Cineco, do you want to see what\'s on Unicentro?')
   },
   _getMoviesFor: function (cinema) {
@@ -53,13 +53,13 @@ const handlers = {
   },
   YesIntent: function () {
     switch (this.attributes['state']) {
-      case state.LISTED_MOVIES:
-        this.attributes['state'] = state.WHICH_CINEMA
+      case states.LISTED_MOVIES:
+        this.attributes['state'] = states.WHICH_CINEMA
         return this.emit(':ask', `Which one?`)
-      case state.PROMPTED_TO_LIST_CINEMAS:
-        this.attributes['state'] = state.LISTED_CINEMAS
+      case states.PROMPTED_TO_LIST_CINEMAS:
+        this.attributes['state'] = states.LISTED_CINEMAS
         return this.emit(':ask', `Which cinema do you want to see? ${cineco.CINEMAS.map(c => c.name).join(', ')}.`)
-      case state.DEFAULT:
+      case states.DEFAULT:
         return this._getMoviesFor('unicentro')
       default:
         this.Unhandled()
@@ -67,13 +67,13 @@ const handlers = {
   },
   NoIntent: function () {
     switch (this.attributes['state']) {
-      case state.LISTED_MOVIES:
-      case state.PROMPTED_TO_LIST_CINEMAS:
+      case states.LISTED_MOVIES:
+      case states.PROMPTED_TO_LIST_CINEMAS:
         this.attributes['state'] = 0
         return this.emit(':tell', `Ok`)
-      case state.DEFAULT:
+      case states.DEFAULT:
         this.emit(':ask', `Do you want to check another cinema?`)
-        return this.attributes['state'] = state.PROMPTED_TO_LIST_CINEMAS
+        return this.attributes['state'] = states.PROMPTED_TO_LIST_CINEMAS
       default:
         this.Unhandled()
     }
@@ -87,10 +87,10 @@ const handlers = {
     const number = slots.number.value
 
     switch (this.attributes['state']) {
-      case state.LISTED_MOVIES:
+      case states.LISTED_MOVIES:
         const movie = this.attributes['movies'][number]
         return this.emit(':tell', `For ${movie.title} the functions are: ${movie.functions.join(', ')}`)
-      case  state.LISTED_CINEMAS:
+      case  states.LISTED_CINEMAS:
         const cinema = cineco.CINEMAS[number]
         return this._getMoviesFor(cinema.name)
       default:
