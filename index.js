@@ -31,25 +31,32 @@ app.post('/', function (req, res) {
         .catch(err => {  console.log(err); })
 })
 
+function _getMoviesFor (cinema) {
+  cineco
+    .getMoviesFor(cinema)
+    .then(movies => {
+      this.attributes['movies'] = movies
+      this.attributes['state'] = states.LISTED_MOVIES
+      this.emit(':tell', `There are these movies for today on ${cinema}: 
+        ${movies.map((m, i) => `${i}: ${m.title}`).join('\n')}.
+        To check the functions say the index, or say "stop" to quit.`)
+    }, err => {
+      console.error(err)
+      this.emit(':tell', 'Sorry, I couldn\'t contact to Cineco')
+    })
+}
+
+function _unhandled () {
+  this.emit(':ask', `I'm sorry, can you repeat that again?`)
+}
+
 const handlers = {
   LaunchRequest: function () {
     console.log('Welcome to Cineco')
+    this._getMoviesFor = _getMoviesFor.bind(this)
+    this._unhandled = _unhandled.bind(this)
     this.attributes['state'] = states.DEFAULT
     this.emit(':ask', 'Welcome to Cineco, do you want to see what\'s on Unicentro?')
-  },
-  _getMoviesFor: function (cinema) {
-    cineco
-      .getMoviesFor(cinema)
-      .then(movies => {
-        this.attributes['movies'] = movies
-        this.attributes['state'] = states.LISTED_MOVIES
-        this.emit(':tell', `There are these movies for today on ${cinema}: 
-          ${movies.map((m, i) => `${i}: ${m.title}`).join('\n')}.
-          To check the functions say the index, or say "stop" to quit.`)
-      }, err => {
-        console.error(err)
-        this.emit(':tell', 'Sorry, I couldn\'t contact to Cineco')
-      })
   },
   YesIntent: function () {
     switch (this.attributes['state']) {
@@ -62,7 +69,7 @@ const handlers = {
       case states.DEFAULT:
         return this._getMoviesFor('unicentro')
       default:
-        this.Unhandled()
+        this._unhandled()
     }
   },
   NoIntent: function () {
@@ -75,7 +82,7 @@ const handlers = {
         this.emit(':ask', `Do you want to check another cinema?`)
         return this.attributes['state'] = states.PROMPTED_TO_LIST_CINEMAS
       default:
-        this.Unhandled()
+        this._unhandled()
     }
   },
   CancelIntent: function () {
@@ -94,7 +101,7 @@ const handlers = {
         const cinema = cineco.CINEMAS[number]
         return this._getMoviesFor(cinema.name)
       default:
-        this.Unhandled()
+        this._unhandled()
     }
   },
   SelectIntent: function () {
@@ -102,9 +109,7 @@ const handlers = {
     const cinema = slots.cinema.value
     this._getMoviesFor(cinema)
   },
-  Unhandled: function () {
-    this.emit(':ask', `I'm sorry, can you repeat that again?`)
-  }
+  Unhandled: _unhandled
 };
 
 function handler (event, context, callback) {
