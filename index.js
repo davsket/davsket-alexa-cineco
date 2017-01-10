@@ -37,9 +37,9 @@ function _getMoviesFor (cinema) {
     .then(movies => {
       this.attributes['movies'] = movies
       this.attributes['state'] = states.LISTED_MOVIES
-      this.emit(':tell', `There are these movies for today on ${cinema}: 
-        ${movies.map((m, i) => `${i}: ${m.title}`).join('\n')}.
-        To check the functions say the index, or say "stop" to quit.`)
+      this.emit(':ask', `There are these movies for today on ${cinema}: 
+        ${movies.map((m, i) => `${m.title}`).join('\n')}.
+        To check the functions say the index of the movie, otherwise say "stop" or "cancel" to quit.`)
     }, err => {
       console.error(err)
       this.emit(':tell', 'Sorry, I couldn\'t contact to Cineco')
