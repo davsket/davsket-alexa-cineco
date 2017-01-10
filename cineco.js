@@ -46,5 +46,7 @@ module.exports.getMoviesFor = function getMoviesFor (cinema) {
 function cleanName (name) {
   return name
           .replace('¡', '')
+          .replace('!', '')
           .replace('¿', '')
+          .replace('?', '')
 }
