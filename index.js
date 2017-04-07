@@ -6,6 +6,7 @@ const alexa      = require('alexa-app')
 const bodyParser = require('body-parser')
 const cineco     = require('./cineco')
 const PORT       = process.env.PORT || 5000
+const APP_ID     = process.env.ALEXA_APP_ID
 
 const app        = express()
 
@@ -37,7 +38,7 @@ function _getMoviesFor (cinema) {
     .then(movies => {
       this.attributes['movies'] = movies
       this.attributes['state'] = states.LISTED_MOVIES
-      this.emit(':ask', `There are these movies for today on ${cinema}: 
+      this.emit(':ask', `There are these movies for today on ${cinema}:
         ${movies.map((m, i) => `${m.title}`).join('. ')}.
         To check the functions say the index of the movie, otherwise say "stop" or "cancel" to quit.`)
     }, err => {
@@ -112,7 +113,7 @@ const handlers = {
 
 function handler (event, context, callback) {
   var alexa = Alexa.handler(event, context)
-  alexa.appId = 'amzn1.ask.skill.59245af3-f646-4348-98d2-47339ebe586f'
+  alexa.appId = APP_ID
   alexa.registerHandlers(handlers)
   alexa.execute()
 }
