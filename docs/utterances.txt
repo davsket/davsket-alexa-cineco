@@ -1,0 +1,22 @@
+YesIntent yes
+YesIntent sure
+
+NoIntent no
+NoIntent nope
+NoIntent none
+NoIntent another one
+
+SelectIntent {cinema}
+SelectIntent {cinema} cinema
+
+SelectDate for {date}
+SelectDate {date}
+
+NumberIntent {number}
+NumberIntent the {number}
+NumberIntent {number} one
+NumberIntent the {number} one
+NumberIntent {number} movie
+
+CancelIntent cancel
+CancelIntent stop

@@ -1,0 +1,27 @@
+{
+  "intents": [{
+    "intent": "YesIntent"
+  }, {
+    "intent": "NoIntent"
+  }, {
+    "intent": "SelectIntent",
+    "slots": [{
+      "name": "cinema",
+      "type": "LIST_OF_CINEMAS"
+    }]
+  }, {
+    "intent": "SelectDate",
+    "slots": [{
+      "name": "date",
+      "type": "AMAZON.DATE"
+    }]
+  }, {
+    "intent": "NumberIntent",
+    "slots": [{
+      "name": "number",
+      "type": "AMAZON.NUMBER"
+    }]
+  }, {
+    "intent": "CancelIntent"
+  }]
+}

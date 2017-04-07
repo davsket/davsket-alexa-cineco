@@ -1,0 +1,21 @@
+LIST_OF_CINEMAS
+
+andino
+avenida chile
+calle 100
+cedritos
+centro chía
+centro mayor
+embajador
+galerías
+gran estación
+las americas
+mercurio
+metropolis
+plaza central
+portal 80
+portoalegre
+santa barbara
+santafe bogota
+titan plaza
+unicentro

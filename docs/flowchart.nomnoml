@@ -1,0 +1,30 @@
+[<start>st]->[<state>Start]
+[Start]->[<choice>To list
+Unicentro?]
+
+[<choice>To list
+Unicentro?] yes ->[<state>ListMovies]
+[<choice>To list
+Unicentro?] no ->[<state>ListCinemas]
+[<state>ListCinemas]->[<choice>Which cinema
+do you want
+to see?]
+
+[<state>ListMovies]->[<choice>Which movie
+do you want
+to see?]
+[<choice>Which movie
+do you want
+to see?] number ->[<state>ListFunctions]
+[<choice>Which movie
+do you want
+to see?] cancel ->[<end>e]
+
+[<choice>Which cinema
+do you want
+to see?] cancel ->[<end>e]
+[<choice>Which cinema
+do you want
+to see?] number ->[<state>ListMovies]
+
+[<state>ListFunctions]->[<end>e]
